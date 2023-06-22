@@ -1,9 +1,19 @@
 import Image from "next/image";
+import Link from "next/link";
 
-export default function Home() {
+const HomePage = () => {
   return (
     <main>
-      <h1>Hello jest</h1>
+      <h1>Events is a news aggregator </h1>
+
+      <Link
+        className="underline decoration-sky-500 hover:decoration-yellow-400"
+        href="/news"
+      >
+        Check out latest news
+      </Link>
     </main>
   );
-}
+};
+
+export default HomePage;
