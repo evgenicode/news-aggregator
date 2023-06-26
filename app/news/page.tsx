@@ -29,12 +29,13 @@ const newsFeed = async () => {
 
   return (
     <div className="pl-5 pr-5 ">
-      <h1 className="pb-8">This is the news feed</h1>
+      <h1 className="pb-8 text-2xl">This is the news feed</h1>
+      <h1 className="pb-8 text-2xl test-class">This is a TEST</h1>
       <ul role="list">
         {trendingNews.articles.map((item: any) => (
-          <div className="my-3 bg-sky-950 shadow-md">
+          <div className="my-3 bg-sky-950 shadow-lg">
             <li className="pb-8" key={item.title}>
-              <h1>{item.title}</h1>
+              <h1 className="text-2xl pb-1">{item.title}</h1>
               <p className="pb-2">{item.description}</p>
               <Link href={item.url}>{item.url}</Link>
             </li>
