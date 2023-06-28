@@ -20,8 +20,8 @@ const Header = () => {
             News
           </Link>
         </div>
-        <button className="hidden md:block rounded-full bg-slate-300 p-2 px-5 pt-2 text-lime-900 hover:bg-black">
-          Rndbtn
+        <button className="hidden md:block rounded-full bg-slate-300 p-2 px-5 pt-2 text-lime-900 hover:bg-black hover:text-white">
+          Get Started
         </button>
       </div>
     </header>
