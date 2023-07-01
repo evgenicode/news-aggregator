@@ -38,20 +38,25 @@ const NewsItem: React.FC<NewsItemProps> = ({
   url,
 }) => {
   return (
-    <div className="my-3 bg-green-700 shadow-lg p-5 ">
-      <li className="pb-4">
-        <Image
-          src={image}
-          alt={title}
-          width={300}
-          height={300}
-          unoptimized={true}
-        />
-        <h1 className="text-2xl pb-1">{title}</h1>
-        <p className="pb-2">{description}</p>
-        <a href={url} target="_blank" rel="noopener noreferrer">
-          Read more
-        </a>
+    <div className="my-3 bg-green-700 shadow-lg p-5 flex items-start ">
+      <li className="pb-4 flex ">
+        <div className="flex-shrink-0 w-60 ">
+          <Image
+            src={image}
+            alt={title}
+            width={300}
+            height={200}
+            unoptimized={true}
+          />
+        </div>
+
+        <div className="ml-4 ">
+          <h1 className="text-2xl pb-1 ">{title}</h1>
+          <p className="pb-2">{description}</p>
+          <a href={url} target="_blank" rel="noopener noreferrer">
+            Read more
+          </a>
+        </div>
       </li>
     </div>
   );
@@ -62,8 +67,7 @@ const newsFeed = async () => {
   // console.log(trendingNews);
 
   return (
-    <div className="md:container flex flex-col pl-5 pr-5">
-      <h1 className="pb-8 text-2xl">This is the news feed</h1>
+    <div className="md:container flex flex-col ">
       <ul role="list">
         {trendingNews.articles.map((item) => (
           <NewsItem
