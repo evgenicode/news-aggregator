@@ -38,9 +38,9 @@ const NewsItem: React.FC<NewsItemProps> = ({
   url,
 }) => {
   return (
-    <div className="my-3 bg-green-700 shadow-lg p-5 flex items-start ">
-      <li className="pb-4 flex ">
-        <div className="flex-shrink-0 w-60 ">
+    <div className="my-3 bg-green-700 shadow-lg p-5  flex md:items-start ">
+      <li className=" pb-4 md:flex md:items-start ">
+        <div className="  mx-auto md:mr-4 md:flex-shrink-0 w-60 ">
           <Image
             src={image}
             alt={title}
@@ -51,8 +51,8 @@ const NewsItem: React.FC<NewsItemProps> = ({
         </div>
 
         <div className="ml-4 ">
-          <h1 className="text-2xl pb-1 ">{title}</h1>
-          <p className="pb-2">{description}</p>
+          <h1 className=" text-center text-2xl md:pb-1 ">{title}</h1>
+          <p className="pb-2 flex">{description}</p>
           <a href={url} target="_blank" rel="noopener noreferrer">
             Read more
           </a>
