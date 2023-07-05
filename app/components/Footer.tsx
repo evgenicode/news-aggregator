@@ -9,8 +9,8 @@ library.add(faFacebook);
 
 const Footer = () => {
   return (
-    <footer className="md:relative md:container md:mx-auto p-3 bg-gray-600">
-      <div className="flex items-center justify-between">
+    <footer className=" md:container md:mx-auto p-3 bg-gray-600">
+      <div className="flex sm:flex-col-reverse items-center md:flex-row md:container my-4 justify-between gap-4">
         <div className="pt-0">
           <img src="favicon.ico" alt="logo" className="h-10" />
         </div>
@@ -31,16 +31,31 @@ const Footer = () => {
             />
           </Link>
 
-          <Link href="/" className="hover:text-blue-300 text-slate-100">
+          <Link
+            href="/"
+            className="hover:text-blue-300 text-slate-100 flex items-center"
+          >
             About
           </Link>
-          <Link href="/news" className="hover:text-blue-300 text-slate-100">
+          <Link
+            href="/news"
+            className="hover:text-blue-300 text-slate-100 flex items-center"
+          >
             News
           </Link>
         </div>
-        <button className="hidden md:block rounded-full bg-slate-300 p-2 px-5 pt-2 text-lime-900 hover:bg-black hover:text-white">
-          Subscribe to Newsletter
-        </button>
+        <form>
+          <div className="flex space-x-4">
+            <button className=" md:block rounded-full bg-slate-300 p-2 px-5 pt-2 text-lime-900 hover:bg-black hover:text-white">
+              Subscribe
+            </button>
+            <input
+              type="text"
+              placeholder="youremail@example.info"
+              className="flex-1 px-4 rounded-full focus:outline-none"
+            ></input>
+          </div>
+        </form>
       </div>
     </footer>
   );
