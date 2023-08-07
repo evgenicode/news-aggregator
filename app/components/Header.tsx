@@ -24,13 +24,15 @@ const Header = () => {
           <Link href="/" className="hover:text-blue-300 text-slate-100">
             About
           </Link>
-          <Link href="/news" className="hover:text-blue-300 text-slate-100">
-            News
+          <Link href="/trending" className="hover:text-blue-300 text-slate-100">
+            Trending
           </Link>
         </div>
-        <button className="hidden md:block rounded-full bg-slate-300 p-2 px-5 pt-2 text-lime-900 hover:bg-black hover:text-white">
-          Get Started
-        </button>
+        <Link href="/news">
+          <button className="hidden md:block rounded-full bg-slate-300 p-2 px-5 pt-2 text-lime-900 hover:bg-black hover:text-white">
+            Get Started
+          </button>
+        </Link>
         <button
           id="menu-btn"
           className={`md:hidden block hamburger focus:outline-none ${
@@ -49,7 +51,7 @@ const Header = () => {
           className="absolute flex flex-col items-center self-end py-8 mt-10 space-y-6 
           font-bold sm:w-auto sm:self-center left-6 right-6 drop-shadow-md bg-green-700"
         >
-          <Link href="/">Pricing</Link>
+          <Link href="/news">News</Link>
           <Link href="/">Product</Link>
           <Link href="/">About</Link>
           <Link href="/">Careers</Link>

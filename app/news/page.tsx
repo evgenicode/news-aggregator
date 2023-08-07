@@ -1,86 +1,66 @@
-import React from "react";
+"use client";
+import React, { useState, useEffect } from "react";
+import { LanguageDropdown, Language } from "../components/LanguageSelector";
+import { apiCall } from "../components/ServerActions";
+import { NewsItem } from "../components/NewsItem";
 
-import mockResponse from "./mockResopnse.json";
-import Link from "next/link";
-import Image from "next/image";
+const NewsFeed: React.FC = () => {
+  const [language, setLanguage] = useState(Language.English);
+  const [trendingNews, setTrendingNews] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-// Production
-// const API_KEY = process.env.API_KEY;
-// const gnewsapiTrending = `https://gnews.io/api/v4/top-headlines?category=general&apikey=${API_KEY}`;
-// const apiUpdateRate = 60 * 60 * 24; // 24 hours
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true);
 
-// const fetchTrending = async () => {
-//   const response = await fetch(`${gnewsapiTrending}`, {
-//     next: {
-//       revalidate: apiUpdateRate,
-//     },
-//   });
-//   const trendingNews = await response.json();
-//   return trendingNews;
-// };
+      const newsData = await apiCall(language);
+      const uniqueArticles = [];
+      const uniqueArticleTitles = new Set();
 
-// Dvelopment
-const fetchTrending = async () => {
-  return mockResponse;
-};
+      for (const article of newsData.articles) {
+        if (!uniqueArticleTitles.has(article.title)) {
+          uniqueArticleTitles.add(article.title);
+          uniqueArticles.push(article);
+        }
+      }
 
-interface NewsItemProps {
-  title: any;
-  description: any;
-  image: any;
-  url: any;
-}
+      setTrendingNews({ ...newsData, articles: uniqueArticles });
+      setIsLoading(false);
+    };
+    fetchData();
+  }, [language]);
 
-const NewsItem: React.FC<NewsItemProps> = ({
-  title,
-  description,
-  image,
-  url,
-}) => {
+  const handleLanguageSelect = (selectedLanguage: Language) => {
+    // console.log("Selected language:", selectedLanguage);
+    // // Perform actions based on the selected language (e.g., fetch news in the selected language)
+    setLanguage(selectedLanguage);
+  };
+
+  console.log(trendingNews);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
-    <div className="my-3 bg-green-700 shadow-lg p-5  flex md:items-start ">
-      <li className=" pb-4 md:flex md:items-start ">
-        <div className="  mx-auto md:mr-4 md:flex-shrink-0 w-60 ">
-          <Image
-            src={image}
-            alt={title}
-            width={300}
-            height={200}
-            unoptimized={true}
-          />
-        </div>
+    <div>
+      <LanguageDropdown onSelect={handleLanguageSelect} />
 
-        <div className="ml-4 ">
-          <h1 className=" text-center text-2xl md:pb-1 ">{title}</h1>
-          <p className="pb-2 flex">{description}</p>
-          <a href={url} target="_blank" rel="noopener noreferrer">
-            Read more
-          </a>
-        </div>
-      </li>
+      <div>
+        <ul role="list">
+          {trendingNews.articles.map((item: any) => (
+            <NewsItem
+              key={item.title}
+              title={item.title}
+              description={item.description}
+              image={item.image}
+              url={item.url}
+            />
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
 
-const newsFeed = async () => {
-  const trendingNews = await fetchTrending();
-  // console.log(trendingNews);
-
-  return (
-    <div className="md:container flex flex-col ">
-      <ul role="list">
-        {trendingNews.articles.map((item) => (
-          <NewsItem
-            key={item.title}
-            title={item.title}
-            description={item.description}
-            image={item.image}
-            url={item.url}
-          />
-        ))}
-      </ul>
-    </div>
-  );
-};
-
-export default newsFeed;
+export default NewsFeed;
