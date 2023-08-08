@@ -1,19 +1,18 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { LanguageDropdown, Language } from "../components/LanguageSelector";
+import { LocationDropdown, Location } from "../components/LocationSelector";
 import { apiCall } from "../components/ServerActions";
 import { NewsItem } from "../components/NewsItem";
 
 const NewsFeed: React.FC = () => {
   const [language, setLanguage] = useState(Language.English);
-  const [trendingNews, setTrendingNews] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [location, setLocation] = useState(Location.AnyLocation);
+  const [news, setNews] = useState<any>(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      setIsLoading(true);
-
-      const newsData = await apiCall(language);
+      const newsData = await apiCall(language, location);
       const uniqueArticles = [];
       const uniqueArticleTitles = new Set();
 
@@ -24,31 +23,34 @@ const NewsFeed: React.FC = () => {
         }
       }
 
-      setTrendingNews({ ...newsData, articles: uniqueArticles });
-      setIsLoading(false);
+      setNews({ ...newsData, articles: uniqueArticles });
     };
     fetchData();
-  }, [language]);
+  }, [language, location]);
 
   const handleLanguageSelect = (selectedLanguage: Language) => {
-    // console.log("Selected language:", selectedLanguage);
-    // // Perform actions based on the selected language (e.g., fetch news in the selected language)
     setLanguage(selectedLanguage);
   };
+  const handleLocationSelect = (selectedLocation: Location) => {
+    setLocation(selectedLocation);
+  };
 
-  console.log(trendingNews);
+  console.log(news);
 
-  if (isLoading) {
+  if (!news) {
     return <div>Loading...</div>;
   }
 
   return (
     <div>
-      <LanguageDropdown onSelect={handleLanguageSelect} />
+      <div>
+        <LanguageDropdown onSelect={handleLanguageSelect} />
+        <LocationDropdown onSelect={handleLocationSelect} />
+      </div>
 
       <div>
         <ul role="list">
-          {trendingNews.articles.map((item: any) => (
+          {news.articles.map((item: any) => (
             <NewsItem
               key={item.title}
               title={item.title}
