@@ -1,7 +1,6 @@
 "use server";
 
-import { Language } from "./LanguageSelector";
-import { Location } from "./LocationSelector";
+import { Location, Language } from "./enums";
 
 const API_KEY = process.env.API_KEY;
 
@@ -9,7 +8,6 @@ export const apiCall = async (language: Language, location: Location) => {
   try {
     const gnewsapiTrending = `https://gnews.io/api/v4/top-headlines?category=general&lang=${language}&country=${location}&apikey=${API_KEY}`;
     const response = await fetch(`${gnewsapiTrending}`);
-    const brokenResponse = "123";
 
     if (!response.ok) {
       if (response.status === 403) {

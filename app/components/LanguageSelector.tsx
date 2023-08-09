@@ -1,17 +1,10 @@
 import React, { useState } from "react";
-
-export enum Language {
-  Chinese = "zh",
-  English = "en",
-  French = "fr",
-  German = "de",
-  Italian = "it",
-  Japanese = "ja",
-  Spanish = "es",
-}
+import { Language } from "./enums";
 
 interface LanguageDropdownProps {
   onSelect: (selectedLanguage: Language) => void;
+  availableLanguages: Language[];
+  defaultLanguage?: Language; // Optional default language
 }
 
 const getLanguageKeyFromValue = (value: string): Language | undefined => {
@@ -22,19 +15,27 @@ const getLanguageKeyFromValue = (value: string): Language | undefined => {
 
 export const LanguageDropdown: React.FC<LanguageDropdownProps> = ({
   onSelect,
+  availableLanguages,
+  defaultLanguage,
 }) => {
-  const [selectedLanguage, setSelectedLanguage] = useState(Language.English);
+  const [selectedLanguage, setSelectedLanguage] = useState(
+    defaultLanguage || Language.English
+  );
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedValue = event.target.value;
-    setSelectedLanguage(selectedValue as Language);
-    onSelect(selectedValue as Language);
+    const selectedValue = event.target.value as Language;
+    setSelectedLanguage(selectedValue);
+    onSelect(selectedValue);
   };
 
   return (
     <select value={selectedLanguage} onChange={handleSelectChange}>
-      {Object.values(Language).map((languageValue) => (
-        <option key={languageValue} value={languageValue}>
+      {availableLanguages.map((languageValue) => (
+        <option
+          key={languageValue}
+          value={languageValue}
+          disabled={!availableLanguages.includes(languageValue)}
+        >
           {getLanguageKeyFromValue(languageValue)}
         </option>
       ))}

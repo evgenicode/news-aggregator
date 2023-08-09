@@ -1,22 +1,6 @@
 import React, { useState } from "react";
-
-export enum Location {
-  AnyLocation = "any",
-  Australia = "au",
-  Canada = "ca",
-  China = "cn",
-  France = "fr",
-  Germany = "de",
-  HongKong = "hk",
-  India = "in",
-  Ireland = "il",
-  Italy = "it",
-  Japan = "jp",
-  Spain = "es",
-  Taiwan = "tw",
-  UnitedKingdom = "gb",
-  UnitedStates = "us",
-}
+import { Location, Language } from "./enums";
+import { getEnumStringValues } from "../components/utils";
 
 const locationLabels: Record<Location, string> = {
   [Location.AnyLocation]: "Any Location",
@@ -27,7 +11,6 @@ const locationLabels: Record<Location, string> = {
   [Location.Germany]: "Germany",
   [Location.HongKong]: "Hong Kong",
   [Location.India]: "India",
-  [Location.Ireland]: "Ireland",
   [Location.Italy]: "Italy",
   [Location.Japan]: "Japan",
   [Location.Spain]: "Spain",
@@ -36,8 +19,30 @@ const locationLabels: Record<Location, string> = {
   [Location.UnitedStates]: "United States",
 };
 
+const allLanguages = getEnumStringValues(Language);
+
+export const countryToLanguages: Record<Location, Language[]> = {
+  [Location.AnyLocation]: allLanguages,
+  [Location.Australia]: [Language.English],
+  [Location.Canada]: [Language.English, Language.French],
+  [Location.China]: [Language.Chinese],
+  [Location.France]: [Language.French],
+  [Location.Germany]: [Language.German],
+  [Location.HongKong]: [Language.Chinese],
+  [Location.India]: [Language.English],
+  [Location.Italy]: [Language.Italian],
+  [Location.Japan]: [Language.Japanese],
+  [Location.Spain]: [Language.Spanish],
+  [Location.Taiwan]: [Language.Chinese],
+  [Location.UnitedKingdom]: [Language.English],
+  [Location.UnitedStates]: [Language.English],
+};
+
 interface LocationDropdownProps {
-  onSelect: (selectedLocation: Location) => void;
+  onSelect: (
+    selectedLocation: Location,
+    availableLanguages: Language[]
+  ) => void;
 }
 
 export const LocationDropdown: React.FC<LocationDropdownProps> = ({
@@ -48,9 +53,12 @@ export const LocationDropdown: React.FC<LocationDropdownProps> = ({
   );
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedValue = event.target.value;
-    setSelectedLocation(selectedValue as Location);
-    onSelect(selectedValue as Location);
+    const selectedValue = event.target.value as Location;
+    setSelectedLocation(selectedValue);
+
+    // Pass available languages based on the selected location
+    const availableLanguages = countryToLanguages[selectedValue];
+    onSelect(selectedValue, availableLanguages);
   };
 
   return (

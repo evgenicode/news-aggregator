@@ -1,38 +1,67 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { LanguageDropdown, Language } from "../components/LanguageSelector";
-import { LocationDropdown, Location } from "../components/LocationSelector";
+import { LanguageDropdown } from "../components/LanguageSelector";
+import { LocationDropdown } from "../components/LocationSelector";
+import { Location, Language } from "../components/enums";
 import { apiCall } from "../components/ServerActions";
 import { NewsItem } from "../components/NewsItem";
+import { countryToLanguages } from "../components/LocationSelector";
 
 const NewsFeed: React.FC = () => {
-  const [language, setLanguage] = useState(Language.English);
+  const [availableLanguages, setAvailableLanguages] = useState<Language[]>([]);
+  const [defaultLanguage, setDefaultLanguage] = useState<Language | undefined>(
+    Language.English
+  );
+  const [selectedLanguage, setSelectedLanguage] = useState(Language.English);
   const [location, setLocation] = useState(Location.AnyLocation);
   const [news, setNews] = useState<any>(null);
+  // A flag to track whether both language and location have been updated
+  const [shouldFetchData, setShouldFetchData] = useState(false);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const newsData = await apiCall(language, location);
-      const uniqueArticles = [];
-      const uniqueArticleTitles = new Set();
+    console.log("useEffect for shouldFetchData");
+    if (shouldFetchData) {
+      const fetchData = async () => {
+        console.log("Fetching data with language:", selectedLanguage);
+        console.log("Fetching data with location:", location);
+        const newsData = await apiCall(selectedLanguage, location);
+        const uniqueArticles = [];
+        const uniqueArticleTitles = new Set();
 
-      for (const article of newsData.articles) {
-        if (!uniqueArticleTitles.has(article.title)) {
-          uniqueArticleTitles.add(article.title);
-          uniqueArticles.push(article);
+        for (const article of newsData.articles) {
+          if (!uniqueArticleTitles.has(article.title)) {
+            uniqueArticleTitles.add(article.title);
+            uniqueArticles.push(article);
+          }
         }
-      }
 
-      setNews({ ...newsData, articles: uniqueArticles });
-    };
-    fetchData();
-  }, [language, location]);
+        setNews({ ...newsData, articles: uniqueArticles });
+      };
+      fetchData();
+      setShouldFetchData(false);
+    }
+  }, [shouldFetchData, selectedLanguage, location]);
+
+  useEffect(() => {
+    // Set the flag to fetch data when both language and location change
+    setShouldFetchData(true);
+  }, [selectedLanguage, location]);
 
   const handleLanguageSelect = (selectedLanguage: Language) => {
-    setLanguage(selectedLanguage);
+    setSelectedLanguage(selectedLanguage);
   };
-  const handleLocationSelect = (selectedLocation: Location) => {
+
+  const handleLocationSelect = (
+    selectedLocation: Location,
+    availableLanguages: Language[]
+  ) => {
     setLocation(selectedLocation);
+    setAvailableLanguages(availableLanguages);
+
+    // Set the default language based on the selected location
+    setDefaultLanguage(
+      countryToLanguages[selectedLocation]?.[0] || Language.English
+    );
   };
 
   console.log(news);
@@ -44,7 +73,11 @@ const NewsFeed: React.FC = () => {
   return (
     <div>
       <div>
-        <LanguageDropdown onSelect={handleLanguageSelect} />
+        <LanguageDropdown
+          onSelect={handleLanguageSelect}
+          availableLanguages={availableLanguages}
+          defaultLanguage={defaultLanguage}
+        />
         <LocationDropdown onSelect={handleLocationSelect} />
       </div>
 
