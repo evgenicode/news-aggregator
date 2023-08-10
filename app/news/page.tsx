@@ -9,9 +9,6 @@ import { countryToLanguages } from "../components/LocationSelector";
 
 const NewsFeed: React.FC = () => {
   const [availableLanguages, setAvailableLanguages] = useState<Language[]>([]);
-  const [defaultLanguage, setDefaultLanguage] = useState<Language | undefined>(
-    Language.English
-  );
   const [selectedLanguage, setSelectedLanguage] = useState(Language.English);
   const [location, setLocation] = useState(Location.AnyLocation);
   const [news, setNews] = useState<any>(null);
@@ -24,6 +21,7 @@ const NewsFeed: React.FC = () => {
       const fetchData = async () => {
         console.log("Fetching data with language:", selectedLanguage);
         console.log("Fetching data with location:", location);
+        console.log("Available languages:", availableLanguages);
         const newsData = await apiCall(selectedLanguage, location);
         const uniqueArticles = [];
         const uniqueArticleTitles = new Set();
@@ -40,7 +38,7 @@ const NewsFeed: React.FC = () => {
       fetchData();
       setShouldFetchData(false);
     }
-  }, [shouldFetchData, selectedLanguage, location]);
+  }, [shouldFetchData]);
 
   useEffect(() => {
     // Set the flag to fetch data when both language and location change
@@ -57,11 +55,11 @@ const NewsFeed: React.FC = () => {
   ) => {
     setLocation(selectedLocation);
     setAvailableLanguages(availableLanguages);
-
-    // Set the default language based on the selected location
-    setDefaultLanguage(
+    setSelectedLanguage(
       countryToLanguages[selectedLocation]?.[0] || Language.English
     );
+
+    // Set the default language based on the selected location
   };
 
   console.log(news);
@@ -76,7 +74,7 @@ const NewsFeed: React.FC = () => {
         <LanguageDropdown
           onSelect={handleLanguageSelect}
           availableLanguages={availableLanguages}
-          defaultLanguage={defaultLanguage}
+          defaultLanguage={selectedLanguage}
         />
         <LocationDropdown onSelect={handleLocationSelect} />
       </div>
