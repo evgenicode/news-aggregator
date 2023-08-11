@@ -8,41 +8,34 @@ import { NewsItem } from "../components/NewsItem";
 import { countryToLanguages } from "../components/LocationSelector";
 
 const NewsFeed: React.FC = () => {
-  const [availableLanguages, setAvailableLanguages] = useState<Language[]>([]);
+  const [availableLanguages, setAvailableLanguages] = useState<Language[]>([
+    Language.English,
+  ]);
   const [selectedLanguage, setSelectedLanguage] = useState(Language.English);
   const [location, setLocation] = useState(Location.AnyLocation);
   const [news, setNews] = useState<any>(null);
-  // A flag to track whether both language and location have been updated
-  const [shouldFetchData, setShouldFetchData] = useState(false);
 
   useEffect(() => {
     console.log("useEffect for shouldFetchData");
-    if (shouldFetchData) {
-      const fetchData = async () => {
-        console.log("Fetching data with language:", selectedLanguage);
-        console.log("Fetching data with location:", location);
-        console.log("Available languages:", availableLanguages);
-        const newsData = await apiCall(selectedLanguage, location);
-        const uniqueArticles = [];
-        const uniqueArticleTitles = new Set();
 
-        for (const article of newsData.articles) {
-          if (!uniqueArticleTitles.has(article.title)) {
-            uniqueArticleTitles.add(article.title);
-            uniqueArticles.push(article);
-          }
+    const fetchData = async () => {
+      console.log("Fetching data with language:", selectedLanguage);
+      console.log("Fetching data with location:", location);
+      console.log("Available languages:", availableLanguages);
+      const newsData = await apiCall(selectedLanguage, location);
+      const uniqueArticles = [];
+      const uniqueArticleTitles = new Set();
+
+      for (const article of newsData.articles) {
+        if (!uniqueArticleTitles.has(article.title)) {
+          uniqueArticleTitles.add(article.title);
+          uniqueArticles.push(article);
         }
+      }
 
-        setNews({ ...newsData, articles: uniqueArticles });
-      };
-      fetchData();
-      setShouldFetchData(false);
-    }
-  }, [shouldFetchData]);
-
-  useEffect(() => {
-    // Set the flag to fetch data when both language and location change
-    setShouldFetchData(true);
+      setNews({ ...newsData, articles: uniqueArticles });
+    };
+    fetchData();
   }, [selectedLanguage, location]);
 
   const handleLanguageSelect = (selectedLanguage: Language) => {
@@ -55,11 +48,9 @@ const NewsFeed: React.FC = () => {
   ) => {
     setLocation(selectedLocation);
     setAvailableLanguages(availableLanguages);
-    setSelectedLanguage(
-      countryToLanguages[selectedLocation]?.[0] || Language.English
-    );
-
-    // Set the default language based on the selected location
+    const defaultLanguageForLocation =
+      countryToLanguages[selectedLocation]?.[0];
+    setSelectedLanguage(defaultLanguageForLocation || Language.English);
   };
 
   console.log(news);

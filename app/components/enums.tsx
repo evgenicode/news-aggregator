@@ -16,8 +16,9 @@ export enum Location {
 }
 
 export enum Language {
-  Chinese = "zh",
   English = "en",
+  Chinese = "zh",
+
   French = "fr",
   German = "de",
   Italian = "it",
