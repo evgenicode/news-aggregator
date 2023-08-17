@@ -19,7 +19,7 @@ const locationLabels: Record<Location, string> = {
   [Location.UnitedStates]: "United States",
 };
 
-const allLanguages = getEnumStringValues(Language);
+export const allLanguages = getEnumStringValues(Language);
 
 export const countryToLanguages: Record<Location, Language[]> = {
   [Location.AnyLocation]: allLanguages,
@@ -40,7 +40,7 @@ export const countryToLanguages: Record<Location, Language[]> = {
 
 interface LocationDropdownProps {
   onSelect: (
-    selectedLocation: Location,
+    selectedLocation: { location: Location; defaultLanguage: Language },
     availableLanguages: Language[]
   ) => void;
 }
@@ -58,7 +58,14 @@ export const LocationDropdown: React.FC<LocationDropdownProps> = ({
 
     // Pass available languages based on the selected location
     const availableLanguages = countryToLanguages[selectedValue];
-    onSelect(selectedValue, availableLanguages);
+    const defaultLanguageForLocation =
+      selectedValue === Location.AnyLocation
+        ? Language.English
+        : countryToLanguages[selectedValue][0];
+    onSelect(
+      { location: selectedValue, defaultLanguage: defaultLanguageForLocation },
+      availableLanguages
+    );
   };
 
   return (
