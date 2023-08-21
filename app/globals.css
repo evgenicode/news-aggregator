@@ -79,11 +79,19 @@ body {
 
 .dropdown {
   max-height: 0;
-  opacity: 0;
-  transition: max-height 0.3s ease, opacity 0.3s ease;
+  visibility: hidden; /* Hide the dropdown */
+  transition: max-height 0.3s ease, visibility 0s 0.3s; /* Delay visibility transition */
+  position: absolute;
+  top: 100%; /* Adjust this value based on your layout */
+  left: 0; /* Adjust this value based on your layout */
+  z-index: -1;
+  pointer-events: none; /* Disable pointer events */
 }
 
 .dropdown.open {
-  opacity: 1;
-  transition: max-height 0.5s ease, opacity 0.5s ease;
+  max-height: 1000px;
+  visibility: visible; /* Show the dropdown */
+  transition: max-height 0.5s ease, visibility 0s;
+  z-index: 1;
+  pointer-events: auto; /* Enable pointer events */
 }
