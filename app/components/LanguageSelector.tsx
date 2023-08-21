@@ -4,7 +4,7 @@ import { Language } from "./enums";
 interface LanguageDropdownProps {
   onSelect: (selectedLanguage: Language) => void;
   availableLanguages: Language[];
-  defaultLanguage?: Language; // Optional default language TODO: UNCHECK ?
+  defaultLanguage?: Language; // Optional default language
 }
 
 const getLanguageKeyFromValue = (value: string): Language | undefined => {
@@ -18,12 +18,12 @@ export const LanguageDropdown: React.FC<LanguageDropdownProps> = ({
   availableLanguages,
   defaultLanguage,
 }) => {
-  const [selectedLanguage, setSelectedLanguage] = useState(
-    defaultLanguage || Language.English
-  );
+  const [selectedLanguage, setSelectedLanguage] = useState(defaultLanguage);
 
+  // TODO: Find out why this state is not being updated, which
+  // requires the hook below.
   useEffect(() => {
-    setSelectedLanguage(defaultLanguage || Language.English);
+    setSelectedLanguage(defaultLanguage);
   }, [defaultLanguage]);
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -33,18 +33,21 @@ export const LanguageDropdown: React.FC<LanguageDropdownProps> = ({
   };
 
   return (
-    <select value={selectedLanguage} onChange={handleSelectChange}>
-      {availableLanguages.map((languageValue) => {
-        return (
-          <option
-            key={languageValue}
-            value={languageValue}
-            disabled={!availableLanguages.includes(languageValue)}
-          >
-            {getLanguageKeyFromValue(languageValue)}
-          </option>
-        );
-      })}
-    </select>
+    <div className="flex">
+      <p>Language:</p>
+      <select value={selectedLanguage} onChange={handleSelectChange}>
+        {availableLanguages.map((languageValue) => {
+          return (
+            <option
+              key={languageValue}
+              value={languageValue}
+              disabled={!availableLanguages.includes(languageValue)}
+            >
+              {getLanguageKeyFromValue(languageValue)}
+            </option>
+          );
+        })}
+      </select>
+    </div>
   );
 };

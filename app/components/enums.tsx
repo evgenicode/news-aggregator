@@ -24,3 +24,15 @@ export enum Language {
   Japanese = "ja",
   Spanish = "es",
 }
+
+export enum Category {
+  General = "general",
+  World = "world",
+  Nation = "nation",
+  Business = "business",
+  Technology = "technology",
+  Entertainment = "entertainment",
+  Sports = "sports",
+  Science = "science",
+  Health = "health",
+}

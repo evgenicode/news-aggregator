@@ -1,12 +1,16 @@
 "use server";
 
-import { Location, Language } from "./enums";
+import { Location, Language, Category } from "./enums";
 
 const API_KEY = process.env.API_KEY;
 
-export const apiCall = async (language: Language, location: Location) => {
+export const apiCall = async (
+  language: Language,
+  location: Location,
+  category: Category
+) => {
   try {
-    const gnewsapiTrending = `https://gnews.io/api/v4/top-headlines?category=general&lang=${language}&country=${location}&apikey=${API_KEY}`;
+    const gnewsapiTrending = `https://gnews.io/api/v4/top-headlines?category=${category}&lang=${language}&country=${location}&apikey=${API_KEY}`;
     const response = await fetch(`${gnewsapiTrending}`);
 
     if (!response.ok) {

@@ -1,12 +1,9 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { LanguageDropdown } from "../components/LanguageSelector";
-import {
-  LocationDropdown,
-  allLanguages,
-  countryToLanguages,
-} from "../components/LocationSelector";
-import { Location, Language } from "../components/enums";
+import { LocationDropdown, allLanguages } from "../components/LocationSelector";
+import { CategoryDropdown } from "../components/CategorySelector";
+import { Location, Language, Category } from "../components/enums";
 import { apiCall } from "../components/ServerActions";
 import { NewsItem } from "../components/NewsItem";
 
@@ -14,6 +11,7 @@ const NewsFeed: React.FC = () => {
   const [availableLanguages, setAvailableLanguages] =
     useState<Language[]>(allLanguages);
   const [selectedLanguage, setSelectedLanguage] = useState(Language.English);
+  const [selectedCategory, setSelectedCategory] = useState(Category.General);
   const [location, setLocation] = useState(Location.AnyLocation);
   const [news, setNews] = useState<any>(null);
 
@@ -24,7 +22,11 @@ const NewsFeed: React.FC = () => {
       // console.log("Fetching data with language:", selectedLanguage);
       // console.log("Fetching data with location:", location);
       // console.log("Available languages:", availableLanguages);
-      const newsData = await apiCall(selectedLanguage, location);
+      const newsData = await apiCall(
+        selectedLanguage,
+        location,
+        selectedCategory
+      );
       const uniqueArticles = [];
       const uniqueArticleTitles = new Set();
 
@@ -38,10 +40,14 @@ const NewsFeed: React.FC = () => {
       setNews({ ...newsData, articles: uniqueArticles });
     };
     fetchData();
-  }, [selectedLanguage, location]);
+  }, [selectedLanguage, location, selectedCategory]);
 
   const handleLanguageSelect = (selectedLanguage: Language) => {
     setSelectedLanguage(selectedLanguage);
+  };
+
+  const handleCategorySelect = (selectedCategory: Category) => {
+    setSelectedCategory(selectedCategory);
   };
 
   const handleLocationSelect = (
@@ -55,7 +61,6 @@ const NewsFeed: React.FC = () => {
         ? Language.English
         : selectedLocation.defaultLanguage;
 
-    // handleLanguageSelect(selectedLanguage);
     setSelectedLanguage(selectedLanguage);
     setLocation(selectedLocation.location);
   };
@@ -68,13 +73,19 @@ const NewsFeed: React.FC = () => {
 
   return (
     <div>
-      <div>
+      <div className="flex">
         <LanguageDropdown
           onSelect={handleLanguageSelect}
           availableLanguages={availableLanguages}
           defaultLanguage={selectedLanguage}
         />
         <LocationDropdown onSelect={handleLocationSelect} />
+
+        <CategoryDropdown
+          onSelect={handleCategorySelect}
+          category={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+        />
       </div>
 
       <div>
