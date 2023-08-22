@@ -95,3 +95,7 @@ body {
   z-index: 1;
   pointer-events: auto; /* Enable pointer events */
 }
+
+.dropdown-text {
+  font-size: 1.3rem;
+}

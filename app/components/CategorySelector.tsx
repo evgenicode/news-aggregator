@@ -24,8 +24,12 @@ export const CategoryDropdown: React.FC<CategoryDropdownProps> = ({
 
   return (
     <div className="flex">
-      <p>Category:</p>
-      <select value={category} onChange={handleSelectChange}>
+      <p className="dropdown-text">Category:</p>
+      <select
+        className="dropdown-text"
+        value={category}
+        onChange={handleSelectChange}
+      >
         {Object.values(Category).map((item) => (
           <option key={item} value={item}>
             {capitalizeFirstLeter(item)}

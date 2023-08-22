@@ -1,5 +1,5 @@
 import React from "react";
-
+import mockResponse from "./mockResopnse.json";
 import { NewsItem } from "../components/NewsItem";
 
 const API_KEY = process.env.API_KEY;

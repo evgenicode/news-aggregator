@@ -34,8 +34,12 @@ export const LanguageDropdown: React.FC<LanguageDropdownProps> = ({
 
   return (
     <div className="flex">
-      <p>Language:</p>
-      <select value={selectedLanguage} onChange={handleSelectChange}>
+      <p className="dropdown-text">Language:</p>
+      <select
+        className="dropdown-text"
+        value={selectedLanguage}
+        onChange={handleSelectChange}
+      >
         {availableLanguages.map((languageValue) => {
           return (
             <option

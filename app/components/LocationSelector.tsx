@@ -70,8 +70,12 @@ export const LocationDropdown: React.FC<LocationDropdownProps> = ({
 
   return (
     <div className="flex">
-      <p>Location:</p>
-      <select value={selectedLocation} onChange={handleSelectChange}>
+      <p className="dropdown-text">Location:</p>
+      <select
+        className="dropdown-text"
+        value={selectedLocation}
+        onChange={handleSelectChange}
+      >
         {Object.values(Location).map((locationValue) => (
           <option key={locationValue} value={locationValue}>
             {locationLabels[locationValue]}
