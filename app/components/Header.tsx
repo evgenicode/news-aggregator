@@ -11,7 +11,7 @@ const Header = () => {
   };
 
   return (
-    <header className="md:relative md:container md:mx-auto p-3 bg-green-700">
+    <header className="md:relative md:container md:mx-auto p-3 bg-sky-700">
       <div className="flex items-center justify-between">
         <div className="pt-0">
           <img src="favicon.ico" alt="logo" className="h-10" />
@@ -49,7 +49,7 @@ const Header = () => {
         <div
           id="menu"
           className="absolute flex flex-col items-center self-end py-8 mt-10 space-y-6 
-          font-bold sm:w-auto sm:self-center left-6 right-6 drop-shadow-md bg-green-700"
+          font-bold sm:w-auto sm:self-center left-6 right-6 drop-shadow-md bg-blue-700"
         >
           <Link href="/news">News</Link>
           <Link href="/">Product</Link>
