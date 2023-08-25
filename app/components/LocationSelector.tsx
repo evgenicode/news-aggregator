@@ -69,7 +69,7 @@ export const LocationDropdown: React.FC<LocationDropdownProps> = ({
   };
 
   return (
-    <div className="flex">
+    <div className="flex md:mx-3">
       <p className="dropdown-text">Location:</p>
       <select
         className="dropdown-text"

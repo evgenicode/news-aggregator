@@ -20,9 +20,13 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Header />
-        <div className="md:container md:mx-auto">{children}</div>
+        <div className="md:container md:mx-auto max-w-screen-md lg:w-[900px]">
+          {children}
+        </div>
         <Footer />
       </body>
     </html>
   );
 }
+
+// lg:w-[768px]

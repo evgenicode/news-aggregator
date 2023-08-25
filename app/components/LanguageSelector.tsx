@@ -33,7 +33,7 @@ export const LanguageDropdown: React.FC<LanguageDropdownProps> = ({
   };
 
   return (
-    <div className="flex">
+    <div className="flex ">
       <p className="dropdown-text">Language:</p>
       <select
         className="dropdown-text"

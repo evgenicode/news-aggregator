@@ -14,7 +14,7 @@ export const NewsItem: React.FC<NewsItemProps> = ({
   url,
 }) => {
   return (
-    <div className="my-3 bg-stone-100 shadow-lg p-5  flex md:items-start ">
+    <div className="my-3 bg-stone-100 shadow-lg p-5  flex md:items-start ls:container mx-md">
       <li className=" pb-4 md:flex md:items-start ">
         <div className="  mx-auto md:mr-4 md:flex-shrink-0 w-60 ">
           <Image

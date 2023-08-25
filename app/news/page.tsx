@@ -73,7 +73,7 @@ const NewsFeed: React.FC = () => {
 
   return (
     <div>
-      <div className="md:flex md:justify-between md:mx-10">
+      <div className="sm:mx-2 md:flex md:justify-between md:mx-10">
         <LanguageDropdown
           onSelect={handleLanguageSelect}
           availableLanguages={availableLanguages}
